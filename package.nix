@@ -1,4 +1,4 @@
-{ mkEpicsPackage, pkg-config, systemdMinimal }:
+{ lib, epnixLib, mkEpicsPackage, pkg-config, systemdMinimal }:
 
 mkEpicsPackage {
   pname = "epics-systemd";
@@ -9,4 +9,11 @@ mkEpicsPackage {
   buildInputs = [ systemdMinimal ];
 
   src = ./.;
+
+  meta = {
+    description = "Systemd-related facilities for EPICS IOCs";
+    homepage = "https://github.com/minijackson/epics-systemd";
+    license = lib.licenses.mit;
+    maintainers = with epnixLib.maintainers; [ minijackson ];
+  };
 }
