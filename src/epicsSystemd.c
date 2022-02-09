@@ -6,6 +6,7 @@
 
 #include <epicsExport.h>
 #include <errlog.h>
+#include <initHooks.h>
 #include <iocsh.h>
 
 // Definitions
@@ -26,6 +27,7 @@ static void epicsSystemdNotifyFunc(iocshArgBuf const* args)
 
 void epicsSystemdNotifyReady(void)
 {
+	errlogPrintf("epics-systemd: notifying ready\n");
 	epicsSystemdNotify("READY=1");
 }
 
@@ -55,6 +57,17 @@ static void epicsSystemdNotifyStoppingFunc(iocshArgBuf const* _args)
 }
 
 // EPICS registration stuff
+
+static void hookHandler(initHookState const state)
+{
+	switch (state) {
+		case initHookAfterIocRunning:
+			epicsSystemdNotifyReady();
+			break;
+		default:
+			break;
+	}
+}
 
 static iocshArg const epicsSystemdNotifyArg0 = {"state", iocshArgString};
 static iocshArg const* const epicsSystemdNotifyArgs[] = {&epicsSystemdNotifyArg0};
@@ -95,6 +108,7 @@ static void epicsSystemdRegistrar(void)
 	iocshRegister(&epicsSystemdNotifyReadyDef, epicsSystemdNotifyReadyFunc);
 	iocshRegister(&epicsSystemdNotifyReloadingDef, epicsSystemdNotifyReloadingFunc);
 	iocshRegister(&epicsSystemdNotifyStoppingDef, epicsSystemdNotifyStoppingFunc);
+	initHookRegister(&hookHandler);
 }
 
 epicsExportRegistrar(epicsSystemdRegistrar);

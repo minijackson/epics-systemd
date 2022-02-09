@@ -5,9 +5,13 @@ Systemd-related facilities for EPICS IOCs.
 
 Currently, epics-systemd allows you to send notification to the systemd service
 manager. What this means, is that if you distribute your IOC as a systemd
-service, simply set `Type=notify` in your `ioc.service` file and call
-`systemdNotifyReady` at the end of your `st.cmd` file. This will notify systemd
-of when your IOC is properly booted and ready to engage communication with.
+service, simply set `Type=notify` in your `ioc.service` file and add the
+`epicsSystemd.dbd` DBD and `epicsSystemd` LIB to your App. This will
+automatically notify systemd of when your IOC is properly booted and ready to
+engage communication with.
+
+Note that if the service is not launched through systemd, this effectively does
+nothing.
 
 This is useful if you have other programs which need to wait for the IOC to be
 ready. For example, in an integration test, we might want to boot a machine
