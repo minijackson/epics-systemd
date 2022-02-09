@@ -10,6 +10,3 @@ epicsSystemdExample_registerRecordDeviceDriver(pdbbase)
 #dbLoadRecords("../../db/epicsSystemdExample.db")
 
 iocInit()
-
-# Notify systemd that we are ready
-systemdNotifyReady()
