@@ -1,10 +1,7 @@
 {
   description = "Systemd-related facilities for EPICS IOCs";
 
-  inputs.nixpkgs = {
-    url = "github:NixOS/nixpkgs/nixos-21.11";
-    follows = "epnix/nixpkgs";
-  };
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.epnix.url = "git+ssh://git@drf-gitlab.cea.fr/EPICS/epnix/epnix.git";
 
